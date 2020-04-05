@@ -28,3 +28,7 @@
 .question{
     margin-top: 1rem;
 }
+.errorMessage{
+    background-color: red;
+    border: 1px solid black;
+}

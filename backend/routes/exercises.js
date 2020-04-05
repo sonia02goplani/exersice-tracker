@@ -48,6 +48,7 @@ exerciseRouter.route('/add').post(function(req, res) {
     const description = req.body .description;
     const duration = req.body.duration;
     const date = req.body.date;
+    
     const newExercise = new Exercise({
         username,userid,description,duration,date,
     });

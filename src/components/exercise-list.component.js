@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './navbar.component'
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Exercise = props => (
@@ -38,7 +38,7 @@ export default class ExerciseList extends Component {
             })
     };
     deleteExercise(id) {
-        axios.delete('http://localhost:5000/exercises/'+id)
+        axios.delete('http://localhost:5000/exercises/' + id)
             .then(res => console.log(res.data))
         this.setState({
             exercises: this.state.exercises.filter(ex => ex._id !== id)
@@ -46,9 +46,15 @@ export default class ExerciseList extends Component {
 
     }
     exercisesList() {
-        return this.state.exercises.map(currentExercise => {
-            return <Exercise exercise={currentExercise} deleteExercise={this.deleteExercise} key={currentExercise._id} />
-        })
+        if (this.state.exercises.length > 0) {
+            return this.state.exercises.map(currentExercise => {
+                return <Exercise exercise={currentExercise} deleteExercise={this.deleteExercise} key={currentExercise._id} />
+            })
+        }
+        else {
+            return "No Logs Found"
+        }
+
 
     }
     render() {
@@ -62,7 +68,7 @@ export default class ExerciseList extends Component {
                         <tr>
                             <th>UserName</th>
                             <th>Description</th>
-                            <th>Duration</th>
+                            <th>Duration(in Minutes)</th>
                             <th>Date</th>
                         </tr>
                     </thead>
