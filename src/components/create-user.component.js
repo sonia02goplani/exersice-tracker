@@ -14,7 +14,7 @@ export default class CreateUser extends Component {
           last_name:'',
           user_name:'',
           password:'',
-          isResultOK: false
+          isResultOK: false,
         }
     }
     onChange = e => {
@@ -35,6 +35,9 @@ export default class CreateUser extends Component {
                 this.setState({ isResultOK: true});
             }
         })
+        .catch((error) =>{
+            console.log(error)
+          })
       };
       renderRedirect = () => {
         if (this.state.isResultOK) {
@@ -54,6 +57,7 @@ export default class CreateUser extends Component {
                   <Input
                   onChange={this.onChange}
                   value={this.state.first_name}
+                  required
                 //   error={errors.first_name}
                     type="text"
                     id="first_name"
@@ -67,6 +71,7 @@ export default class CreateUser extends Component {
                   <Input
                    onChange={this.onChange}
                    value={this.state.last_name}
+                   required
                 //    error={errors.last_name}
                     type="text"
                     id="last_name"
@@ -80,6 +85,7 @@ export default class CreateUser extends Component {
                   <Input
                   onChange={this.onChange}
                   value={this.state.user_name}
+                  required
                 //   error={errors.user_name}
                     type="text"
                     name="user_name"
@@ -94,6 +100,7 @@ export default class CreateUser extends Component {
                   <Input
                   onChange={this.onChange}
                   value={this.state.password}
+                  required
                 //   error={errors.password}
                     type="password"
                     name="password"

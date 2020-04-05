@@ -6,4 +6,5 @@
 }
 .navbar{
     background-color: black;
+    justify-content: start!important;
 }

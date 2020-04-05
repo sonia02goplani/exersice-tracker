@@ -9,8 +9,11 @@ export default class Login extends Component {
         this.state={
         user_name:'',
         password:'',
+        userId: '',
         isAuthDone: false
         }
+        localStorage.clear();
+
        }
        onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
@@ -29,12 +32,20 @@ export default class Login extends Component {
           .then(result =>{
               console.log("result" + result.data);
               if(result.data){
-                  this.setState({...this.state , isAuthDone: true})
+                  this.setState({...this.state , isAuthDone: true, userId: result.data})
+
               }
+          })
+          .catch((error) =>{
+            console.log(error)
           })
       }
       renderRedirect = () => {
         if (this.state.isAuthDone) {
+            localStorage.setItem('UserName', this.state.user_name);
+            localStorage.setItem('UserID', this.state.userId);
+            localStorage.setItem('isLoggedIn', this.state.isAuthDone);
+
           return <Redirect to='/exerciseTracker' />
         }
     }

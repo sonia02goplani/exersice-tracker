@@ -26,8 +26,7 @@ registrationRoutes.route("/login").post(function(req, res) {
             if (!user) res.sendStatus(204);
             else {
                 if(req.body.password===user.password){
-                   res.sendStatus(200) 
-                        console.log(passwordMatch)
+                   res.send(user.id);
                     }
                     else{
                         res.sendStatus(204);

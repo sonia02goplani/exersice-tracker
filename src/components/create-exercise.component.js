@@ -2,28 +2,69 @@ import React , {Component} from 'react';
 import {   Container, Col, Form,FormGroup, Label, Input,Button, } from 'reactstrap';
 import Navbar from './navbar.component'
 import './create-exercise.css'
+import {Link, Redirect} from "react-router-dom";
+import axios from 'axios';
+import DatePicker from 'react-datepicker';
 export default class CreateExercise extends Component {
 
     constructor(props){
         super(props);
+        this.onChangeDate =this.onChangeDate.bind(this);
         this.state={
-            username: '',
+            username: localStorage.getItem('UserName'),
+            userid: localStorage.getItem('UserID'),
             description: '',
             duration: 0,
             date: new Date(),
-            users: []
+            isLoggedIn: localStorage.getItem('isLoggedIn'),
+            isResultOK: false
+
         }
     }
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
       };
+onChangeDate(date)  {
+this.setState({
+    date: date
+})
+}
+      onSubmit = e => {
+        e.preventDefault();
+        const newLog = {
+      
+        username: localStorage.getItem('UserName'),
+        userid: localStorage.getItem('UserID'),
+        description: this.state.description,
+        duration: Number(this.state.duration),
+        date: this.state.date
+        };
+        console.log(newLog);
+        if(this.state.isLoggedIn){
+        axios.post('http://localhost:5000/exercises/add' , newLog)
+        .then(result =>{
+            console.log("result" + result.data)
+            if(result.data){
+                this.setState({ isResultOK: true});
+            }
+        })
+    }
+  
+      };
+      renderRedirect = () => {
+        if (this.state.isResultOK) {
+
+          return <Redirect to='/exerciseTracker' />
+        }
+    }
+    
     render() {
         return(
 
             <Container className="App container">
             <Navbar />
             <h2 className="login_header">Create Exercise LOG</h2>
-            <Form className="form form_box">            
+            <Form className="form form_box" onSubmit={this.onSubmit}>            
               <Col>
                 <FormGroup>
                   <Label>User Name</Label>
@@ -31,6 +72,7 @@ export default class CreateExercise extends Component {
                   onChange={this.onChange}
                   value={this.state.username}
                 //   error={errors.user_name}
+                disabled
                     type="text"
                     name="username"
                     id="username"
@@ -44,6 +86,7 @@ export default class CreateExercise extends Component {
                   <Input
                   onChange={this.onChange}
                   value={this.state.description}
+                  required
                 //   error={errors.first_name}
                     type="textarea"
                     id="description"
@@ -57,6 +100,7 @@ export default class CreateExercise extends Component {
                   <Input
                    onChange={this.onChange}
                    value={this.state.duration}
+                   required
                 //    error={errors.last_name}
                     type="number"
                     id="duration"
@@ -67,21 +111,17 @@ export default class CreateExercise extends Component {
               <Col>
                 <FormGroup>
                   <Label >Date</Label>
-                  <Input
-                  onChange={this.onChange}
-                  value={this.state.date}
-                //   error={errors.password}
-                    type="Date"
-                    name="date"
-                    id="date"
-                    placeholder="YYYY-MM-DD"
+                  <DatePicker
+      showPopperArrow={false}
+      selected={this.state.date}
+      onChange={this.onChangeDate}
                   />
                 </FormGroup>
-              </Col>
-         
-              <Button>Create LOG</Button>
-              {/* <p className="question">Already have an account? <Link to="/login">Log in</Link></p> */}
-            
+              </Col>        
+              <div>
+                  {this.renderRedirect()}
+              <Button color="primary" > Create LOG</Button>
+              </div>
             </Form>
           </Container>
         )
