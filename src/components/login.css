@@ -1,0 +1,30 @@
+.header{
+    background-color: antiquewhite;
+    text-align: center;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.login_header{
+    color: blue;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    font-size: x-large;
+}
+.container{
+    position: relative;
+}
+.form_box{
+    width: 50%;
+    border: 1px solid grey;
+    padding: 16px ;
+    text-align: center;
+    position: absolute;
+    top: 120px;
+    left: 25%
+}
+.input{
+   
+}
+.question{
+    margin-top: 1rem;
+}

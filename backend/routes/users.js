@@ -25,9 +25,14 @@ registrationRoutes.route("/login").post(function(req, res) {
             console.log("User from login", user.user_name)
             if (!user) res.sendStatus(204);
             else {
-                bcrypt.compare(req.body.password, user.password)
-                    .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
-            }
+                if(req.body.password===user.password){
+                   res.sendStatus(200) 
+                        console.log(passwordMatch)
+                    }
+                    else{
+                        res.sendStatus(204);
+                    }
+                    }
         });
 });
 
